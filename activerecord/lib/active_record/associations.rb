@@ -814,7 +814,7 @@ module ActiveRecord
       # returning all the associated objects:
       #
       #   class Picture < ActiveRecord::Base
-      #     has_many :most_recent_comments, -> { order('id DESC').limit(10) }, class_name: 'Comment'
+      #     has_many :most_recent_comments, -> { order(id: :desc).limit(10) }, class_name: 'Comment'
       #   end
       #
       #   Picture.includes(:most_recent_comments).first.most_recent_comments # => returns all associated comments.
@@ -1628,7 +1628,7 @@ module ActiveRecord
         #   has_one :credit_card, dependent: :destroy  # destroys the associated credit card
         #   has_one :credit_card, dependent: :nullify  # updates the associated records foreign
         #                                                 # key value to NULL rather than destroying it
-        #   has_one :last_comment, -> { order('posted_on desc') }, class_name: "Comment"
+        #   has_one :last_comment, -> { order(posted_on: :desc) }, class_name: "Comment"
         #   has_one :project_manager, -> { where(role: 'project_manager') }, class_name: "Person"
         #   has_one :attachment, as: :attachable
         #   has_one :boss, -> { readonly }

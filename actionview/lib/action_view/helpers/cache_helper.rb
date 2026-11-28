@@ -98,14 +98,14 @@ module ActionView
       #
       # ```
       # render group_of_attachments
-      # render @project.documents.where(published: true).order('created_at')
+      # render @project.documents.where(published: true).order(:created_at)
       # ```
       #
       # You will have to rewrite those to the explicit form:
       #
       # ```
       # render partial: 'attachments/attachment', collection: group_of_attachments
-      # render partial: 'documents/document', collection: @project.documents.where(published: true).order('created_at')
+      # render partial: 'documents/document', collection: @project.documents.where(published: true).order(:created_at)
       # ```
       #
       # One last type of dependency can be determined implicitly:
