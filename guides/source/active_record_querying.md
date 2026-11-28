@@ -1818,7 +1818,7 @@ If you want to group records, you can use the [`group`][] method to apply a
 For example, if you want to find a collection of orders grouped by status:
 
 ```ruby
-Order.group("status")
+Order.group(:status)
 ```
 
 And this will give you a single `Order` record for each unique status value in
@@ -1829,7 +1829,7 @@ The SQL that would be executed would be something like this:
 ```sql
 SELECT *
   FROM orders
-  GROUP BY status
+  GROUP BY orders.status
 ```
 
 ### Total of Grouped Items
@@ -1863,7 +1863,7 @@ For example:
 
 ```ruby
 Order.select("customer_id, sum(total) as total_price").
-  group("customer_id").having("sum(total) > ?", 200)
+  group(:customer_id).having("sum(total) > ?", 200)
 ```
 
 The SQL that would be executed would be something like this:
@@ -1871,7 +1871,7 @@ The SQL that would be executed would be something like this:
 ```sql
 SELECT customer_id, sum(total) as total_price
   FROM orders
-  GROUP BY customer_id
+  GROUP BY orders.customer_id
   HAVING sum(total) > 200
 ```
 
@@ -1882,7 +1882,7 @@ You can access the `total_price` for each order record returned like this:
 
 ```ruby
 big_orders = Order.select("customer_id, sum(total) as total_price")
-                  .group("customer_id")
+                  .group(:customer_id)
                   .having("sum(total) > ?", 200)
 
 big_orders[0].total_price
@@ -2109,13 +2109,13 @@ This will generate the following SQL:
 ```sql
 SELECT *
   FROM books
-  ORDER BY year_published DESC
+  ORDER BY books.year_published DESC
 ```
 
 You can use the `reorder` clause to specify a different order:
 
 ```ruby
-Book.reorder("year_published ASC")
+Book.reorder(year_published: :asc)
 ```
 
 The SQL that would be executed:
@@ -2123,7 +2123,7 @@ The SQL that would be executed:
 ```sql
 SELECT *
   FROM books
-  ORDER BY year_published ASC
+  ORDER BY books.year_published ASC
 ```
 
 The `reorder` method also works with any order defined earlier in the query

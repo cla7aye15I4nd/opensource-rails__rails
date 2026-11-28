@@ -2985,7 +2985,7 @@ a `GROUP BY` clause in the finder SQL.
 
 ```ruby
 class Parts < ApplicationRecord
-  has_and_belongs_to_many :assemblies, -> { group "factory" }
+  has_and_belongs_to_many :assemblies, -> { group(:factory) }
 end
 ```
 

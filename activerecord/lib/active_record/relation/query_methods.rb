@@ -901,16 +901,16 @@ module ActiveRecord
     # Replaces any existing order defined on the relation with the specified order.
     #
     # ```
-    # User.order('email DESC').reorder('id ASC') # generated SQL has 'ORDER BY id ASC'
+    # User.order(email: :desc).reorder(id: :asc) # generated SQL has 'ORDER BY users.id ASC'
     # ```
     #
     # Subsequent calls to order on the same relation will be appended. For example:
     #
     # ```
-    # User.order('email DESC').reorder('id ASC').order('name ASC')
+    # User.order(email: :desc).reorder(id: :asc).order(name: :asc)
     # ```
     #
-    # generates a query with `ORDER BY id ASC, name ASC`.
+    # generates a query with `ORDER BY users.id ASC, users.name ASC`.
     def reorder(*args)
       check_if_method_has_arguments!(__callee__, args) do
         sanitize_order_arguments(args)
@@ -933,16 +933,16 @@ module ActiveRecord
     # Defines a fallback order used when no explicit order is specified.
     #
     # ```
-    # User.fallback_order('email DESC') # generated SQL has 'ORDER BY email DESC'
+    # User.fallback_order(email: :desc) # generated SQL has 'ORDER BY users.email DESC'
     # ```
     #
     # Calls to order take precedence over the fallback order. For example:
     #
     # ```
-    # User.fallback_order('email DESC').order('id ASC').order('name ASC')
+    # User.fallback_order(email: :desc).order(id: :asc).order(name: :asc)
     # ```
     #
-    # generates a query with 'ORDER BY id ASC, name ASC'.
+    # generates a query with 'ORDER BY users.id ASC, users.name ASC'.
     def fallback_order(*args)
       check_if_method_has_arguments!(__callee__, args) do
         sanitize_order_arguments(args)
@@ -980,7 +980,7 @@ module ActiveRecord
     # modify the relations without reconstructing the entire chain.
     #
     # ```
-    # User.order('email DESC').unscope(:order) == User.all
+    # User.order(email: :desc).unscope(:order) == User.all
     # ```
     #
     # The method arguments are symbols which correspond to the names of the methods
@@ -988,7 +988,7 @@ module ActiveRecord
     # The method can also be called with multiple arguments. For example:
     #
     # ```
-    # User.order('email DESC').select('id').where(name: "John")
+    # User.order(email: :desc).select(:id).where(name: "John")
     #     .unscope(:order, :select, :where) == User.all
     # ```
     #
@@ -1015,10 +1015,10 @@ module ActiveRecord
     # it persists across merges:
     #
     # ```
-    # User.order('email').merge(User.except(:order))
-    #     == User.order('email')
+    # User.order(:email).merge(User.except(:order))
+    #     == User.order(:email)
     #
-    # User.order('email').merge(User.unscope(:order))
+    # User.order(:email).merge(User.unscope(:order))
     #     == User.all
     # ```
     #
@@ -1505,7 +1505,7 @@ module ActiveRecord
     # without also specifying a GROUP clause.
     #
     # ```
-    # Order.having('SUM(price) > 30').group('user_id')
+    # Order.having('SUM(price) > 30').group(:user_id)
     # ```
     def having(opts, *rest)
       opts.blank? ? self : spawn._having!(opts, rest)
@@ -1860,7 +1860,7 @@ module ActiveRecord
     # Reverse the existing order clause on the relation.
     #
     # ```
-    # User.order('name ASC').reverse_order # generated SQL has 'ORDER BY name DESC'
+    # User.order(name: :asc).reverse_order # generated SQL has 'ORDER BY users.name DESC'
     # ```
     def reverse_order
       spawn.reverse_order!

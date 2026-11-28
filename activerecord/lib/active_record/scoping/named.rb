@@ -95,7 +95,7 @@ module ActiveRecord
         # ```
         # class Shirt < ActiveRecord::Base
         #   scope :red, -> { where(color: 'red') }
-        #   scope :dry_clean_only, -> { joins(:washing_instructions).where('washing_instructions.dry_clean_only = ?', true) }
+        #   scope :dry_clean_only, -> { joins(:washing_instructions).where(washing_instructions: { dry_clean_only: true }) }
         # end
         # ```
         #
@@ -179,7 +179,7 @@ module ActiveRecord
         #   scope :featured, -> { where(featured: true) }
         #
         #   def self.latest_article
-        #     order('published_at desc').first
+        #     order(published_at: :desc).first
         #   end
         #
         #   def self.titles

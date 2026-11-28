@@ -207,7 +207,7 @@ module ActiveRecord
     # * Grouped values: This returns an ordered hash of the values and groups them. It
     #   takes either a column name, or the name of a belongs_to association.
     #
-    #      values = Person.group('last_name').maximum(:age)
+    #      values = Person.group(:last_name).maximum(:age)
     #      puts values["Drake"]
     #      # => 43
     #
